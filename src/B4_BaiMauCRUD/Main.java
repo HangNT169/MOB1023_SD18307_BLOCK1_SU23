@@ -16,6 +16,10 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ArrayList<DongHo> listNew = new ArrayList<>();
+        DongHoServiceImpl dongHoServiceImpl = new DongHoServiceImpl();
+        // Class = new Class 
+        // interface = new Class 
+        DongHoService dhs = new DongHoServiceImpl();
         System.out.println("chuc nang 1");
         System.out.println("chuc nang 2");
         System.out.println("chuc nang 3");
