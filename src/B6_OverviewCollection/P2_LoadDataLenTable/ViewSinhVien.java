@@ -4,6 +4,8 @@
  */
 package B6_OverviewCollection.P2_LoadDataLenTable;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -16,12 +18,55 @@ public class ViewSinhVien extends javax.swing.JFrame {
     // Khi lam viec voi table 
     // => Default Table Model 
     private DefaultTableModel dtm = new DefaultTableModel();
+    // C1: Class = new Class 
+//    private NhanVienServiceImpl nhanVienServiceImpl 
+//            = new NhanVienServiceImpl();
+    // C2: Interface = new Class 
+    private NhanVienService service = new NhanVienServiceImpl();
+    private List<NhanVien> lists = new ArrayList<>();
+//    private ArrayList<NhanVien>lists = new ArrayList<>();
+    // Khi chay chuong truong => mo form yeu cau lam gi
+    // Viet toan bo phan mo form trong contructor NHUNG duoi ham init
 
-    /**
-     * Creates new form ViewSinhVien
-     */
     public ViewSinhVien() {
-        initComponents();
+        initComponents(); // Khoi tao form 
+        // B1: get tu jtable vao default table model 
+        dtm = (DefaultTableModel) tbHienThi.getModel();
+        // B2: get du lieu vao list 
+        lists = service.getAll();
+        // B3: Load data len table 
+        loadDataTable(lists);
+        // fill du lieu dong cuoi duoc chon <size -1>
+        // vi tri cua phan tu cuoi cung
+        detailNhanVien(lists.size() - 1);
+    }
+
+    // 1 ham => Show dataa len table 
+    private void loadDataTable(List<NhanVien> listNhanVien) {
+        // set row table = 0
+        dtm.setRowCount(0);
+        // code 
+        for (NhanVien nv : listNhanVien) {
+            // add tung dong 
+            dtm.addRow(new Object[]{nv.getTen(), nv.getLoai(),
+                nv.isGioiTinh(), nv.getSoThich()});
+        }
+    }
+    
+    private void detailNhanVien(int index) {
+        // Mang - lists , vi tri : index 
+        // => Gia tri cua vi tri 
+        NhanVien nhanVien = lists.get(index); // Lay ra 1 doi tuong o vi tri mong muon
+        txtName.setText(nhanVien.getTen());
+        // loai, gioi tinh, so thich 
+        // => giong clear
+        cbbLoai.setSelectedItem(nhanVien.getLoai()); // Thay doi gia tri cua cbb
+        boolean gioiTinh = nhanVien.isGioiTinh();
+        if (gioiTinh == true) { // Nam hoac if(gioiTinh) => default la true
+            rdNam.setSelected(true);
+        } else {
+            rdNu.setSelected(true);
+        }
     }
 
     /**
@@ -102,6 +147,11 @@ public class ViewSinhVien extends javax.swing.JFrame {
                 "Tên", "Loại", "Giới tính", "Sở thích"
             }
         ));
+        tbHienThi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbHienThiMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbHienThi);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -206,6 +256,13 @@ public class ViewSinhVien extends javax.swing.JFrame {
         String message = name + " - " + loai + " - " + gioiTinh;
         JOptionPane.showMessageDialog(this, message);
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void tbHienThiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbHienThiMouseClicked
+        // Lay vi tri duoc chon 
+        int row = tbHienThi.getSelectedRow();
+//        JOptionPane.showMessageDialog(this, row);
+        detailNhanVien(row);
+    }//GEN-LAST:event_tbHienThiMouseClicked
 
     /**
      * @param args the command line arguments
