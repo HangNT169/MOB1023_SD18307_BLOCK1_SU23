@@ -6,6 +6,7 @@ package B8_CRUDListFixCung;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -42,7 +43,7 @@ public class ViewDongVat extends javax.swing.JFrame {
                 dv.getCanNang(), dv.isGioiTinh()});
         }
     }
-    
+
     private void detailDongVat(int index) {
         DongVat dongVat = listDongVat.get(index);
         txtMa.setText(dongVat.getMaDV());
@@ -323,26 +324,47 @@ public class ViewDongVat extends javax.swing.JFrame {
     }//GEN-LAST:event_tblDongVatMouseClicked
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        int row = tblDongVat.getSelectedRow(); 
+        int row = tblDongVat.getSelectedRow();
         dongVatService.xoaDongVat(row);
         showDataTable(listDongVat);
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        dongVatService.addDongVat(getFormData());
+        JOptionPane.showMessageDialog(this,
+                dongVatService.addDongVat(getFormData()));
         showDataTable(listDongVat);
     }//GEN-LAST:event_btnThemActionPerformed
 
-    private DongVat getFormData(){
+    private DongVat getFormData() {
         // B1: Lay toan bo data tu form 
         String ma = txtMa.getText();
+        // Check trong
+        if (ma.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ma khong duoc de trong");
+            return null;
+        }
         String ten = txtTen.getText();
+        // Check ten k duoc co so 
+        if (!ten.matches("[a-z A-Z]+")) {
+            JOptionPane.showMessageDialog(this, "Ten phai la chu");
+            return null;
+        }
         String canNang = txtCanNang.getText();
+        // Check can nang phai la so
+        // C1: try...catch
+        // C2: regex 
+        // \\d => Check so 
+        // Muon lap lai nhieu lan thi +
+        if (!canNang.matches("[0-9]+")) { // \\d+
+            JOptionPane.showMessageDialog(this, "Can nang phai la so");
+            return null;
+        }
         boolean gioiTinh = rdoNam.isSelected();
         DongVat dongVat = new DongVat(ma, ten,
                 Integer.valueOf(canNang), gioiTinh);
         return dongVat;
     }
+
     /**
      * @param args the command line arguments
      */

@@ -14,7 +14,7 @@ public interface DongVatService {
     
     List<DongVat>getAll(); 
     
-    void addDongVat(DongVat dongVat);
+    String addDongVat(DongVat dongVat);
     
     void xoaDongVat(int viTri);
     

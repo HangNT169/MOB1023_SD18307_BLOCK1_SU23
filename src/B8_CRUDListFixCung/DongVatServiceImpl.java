@@ -25,8 +25,12 @@ public class DongVatServiceImpl implements DongVatService {
     }
 
     @Override
-    public void addDongVat(DongVat dongVat) {
-        lists.add(dongVat);
+    public String addDongVat(DongVat dongVat) {
+        if (dongVat != null) {
+            lists.add(dongVat);
+            return "Add thanh cong";
+        }
+        return "Add that bai";
     }
 
     @Override
