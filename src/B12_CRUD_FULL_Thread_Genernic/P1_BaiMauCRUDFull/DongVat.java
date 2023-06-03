@@ -1,4 +1,4 @@
-package B12_CRUD_FULL;
+package B12_CRUD_FULL_Thread_Genernic.P1_BaiMauCRUDFull;
 
 import java.io.Serializable;
 
