@@ -29,7 +29,7 @@ public class Main implements Runnable {
                 Thread.sleep(1000); // 1s = 1000ms => Ngat
             } catch (InterruptedException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } 
         }
     }
     /**
